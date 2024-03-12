@@ -1,0 +1,47 @@
+import telebot
+
+# Замените на свой токен
+token = 'YOUR_TOKEN_HERE'
+bot = telebot.TeleBot(token)
+
+# Создание клавиатуры с вариантами запросов
+markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+item_hobbies = telebot.types.KeyboardButton('Увлечения и навыки?')
+item_experience = telebot.types.KeyboardButton('Образование и опыт?')
+item_education = telebot.types.KeyboardButton('Достижения?')
+item_achievements = telebot.types.KeyboardButton('Ссылки на соц.сети?')
+
+markup.row(item_hobbies, item_experience)
+markup.row(item_education, item_achievements)
+
+# Обработчик команды /start
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, "Меня зовут ***, это моя визитка с помощью которой ты можешь узнать обо мне чуть больше. Что ты хочешь узнать?", reply_markup=markup)
+
+# Обработчик всех остальных сообщений
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    if message.text == "Увлечения и навыки?":
+        handle_hobbies(message)
+    elif message.text == "Образование и опыт?":
+        handle_experience(message)
+    elif message.text == "Достижения?":
+        handle_education(message)
+    elif message.text == "Ссылки на соц.сети?":
+        handle_achievements(message)
+
+# Обработчики для конкретных запросов
+def handle_hobbies(message):
+    bot.send_message(message.chat.id, "Бла-бла-бла")
+
+def handle_experience(message):
+    bot.send_message(message.chat.id, "Бла-бла-бла")
+
+def handle_education(message):
+    bot.send_message(message.chat.id, ", "Бла-бла-бла")
+
+def handle_achievements(message):
+    bot.send_message(message.chat.id, , "Бла-бла-бла", parse_mode="Markdown", disable_web_page_preview=True)
+
+bot.polling()
